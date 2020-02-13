@@ -5,12 +5,12 @@ Check out the [documentation for the API](https://actualbudget.com/docs/develope
 
 ## TODO
 
-**Note**: it turns out that the data YNAB5 exports to is different than what I assumed. They have an API with a [get budget](https://api.youneedabudget.com/v1#/Budgets/getBudgetById) endpoint that returns what you see in example.json: a JSON structure that's nicely structured. But when you actually go and export your budget from the UI ("Export Budget" in the menu) you get a zip of two CSV files that is just a dump of your budget and all transactions.
+I built this first prototype assuming it would take the data dump given from the [get budget](https://api.youneedabudget.com/v1#/Budgets/getBudgetById) endpoint. Turns out when you "Export Budget" in the UI it gives you something completely different: a zip file of two CSV files. The data isn't nearly as detailed/structured.
 
-This is unfortunate, but I think you can reconstruct what is needed to import all your data. You will lose various things (like the default category a payee has, and lots of details like that) but you will have all your transactions and budget info.
+At first I thought we should work with the CSV files, as that's the most natural path users are going to go. But after thinking about it, the JSON dump is so much easier to work with (and more accurate), and it's not that hard to get users the dump. We need to build a simple site that can be hosted on github that authorizes with YNAB and downloads it (there's already a [starter kit](https://github.com/ynab/ynab-api-starter-kit)).
 
 I'm not exactly sure if credit card categories and goals effect anything. I've never understood how they deal with credit cards so there might be some stuff there to figure out.
 
 ## To run it
 
-Have Actual running locally and run `node index.js /path/to/data.json`. (See above, looks like we need to read CSV files...)
+Have Actual running locally and run `node index.js /path/to/data.json`.
