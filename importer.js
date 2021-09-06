@@ -6,6 +6,10 @@ const uuid = require('uuid');
 const actual = require('@actual-app/api');
 const { amountToInteger } = actual.utils;
 
+function ynabAmountToAmount(n) {
+  return n / 10;
+}
+
 function monthFromDate(date) {
   let parts = date.split('-');
   return parts[0] + '-' + parts[1];
@@ -63,7 +67,7 @@ function importAccounts(data, entityIdMap) {
           offbudget: account.on_budget ? false : true,
           closed: account.closed
         });
-        entityIdMap.set(account.entityId, id);
+        entityIdMap.set(account.id, id);
       }
     })
   );
@@ -97,7 +101,7 @@ function importCategories(data, entityIdMap) {
               name: cat.name,
               group_id: groupId
             });
-            entityIdMap.set(category.entityId, id);
+            entityIdMap.set(cat.id, id);
           })
       );
     })
@@ -105,12 +109,16 @@ function importCategories(data, entityIdMap) {
 }
 
 function importPayees(data, entityIdMap) {
-  // TODO: Implement this
-
-  for (let payee of data.payees) {
-    if (!payee.deleted) {
-    }
-  }
+  return Promise.all(
+    data.payees.map(async payee => {
+      if (!payee.deleted) {
+        let id = await actual.createPayee({
+          name: payee.name
+        });
+        entityIdMap.set(payee.id, id);
+      }
+    })
+  );
 }
 
 function importTransactions(data, entityIdMap) {
@@ -123,16 +131,24 @@ function importTransactions(data, entityIdMap) {
   return Promise.all(
     Object.keys(transactionsGrouped).map(async accountId => {
       let transactions = transactionsGrouped[accountId];
-
       let toImport = transactions
         .map(transaction => {
           if (transaction.deleted) {
             return;
           }
-        })
-        .filter(x => x);
+          return {
+            account: entityIdMap.get(transaction.account_id),
+            date: transaction.date,
+            amount: ynabAmountToAmount(transaction.amount),
+            payee: entityIdMap.get(transaction.payee_id),
+            category: entityIdMap.get(transaction.category_id),
+            notes: transaction.memo,
+            imported_id: transaction.import_id,
+            cleared: transaction.cleared == "cleared"
+          }
+        });
 
-      await actual.addTransactions(entityIdMap.get(accountId), toImport);
+        await actual.importTransactions(entityIdMap.get(accountId), toImport);
     })
   );
 }
@@ -151,7 +167,7 @@ async function importBudgets(data, entityIdMap) {
       await Promise.all(
         budget.categories.map(async catBudget => {
           let catId = entityIdMap.get(catBudget.id);
-          let amount = amountToInteger(catBudget.budgeted);
+          let amount = ynabAmountToAmount(catBudget.budgeted);
           if (!catId) {
             return;
           }
