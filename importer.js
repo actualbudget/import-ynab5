@@ -192,10 +192,10 @@ async function importTransactions(data, entityIdMap) {
           }
           let newTransaction = {
             id: entityIdMap.get(transaction.id),  
-            account_id: entityIdMap.get(transaction.account_id),
+            account: entityIdMap.get(transaction.account_id),
             date: transaction.date,
             amount: amountFromYnab(transaction.amount),  
-            category_id: entityIdMap.get(transaction.category_id) || null,
+            category: entityIdMap.get(transaction.category_id) || null,
             notes: transaction.memo || null,
             //imported_id,
             transfer_id: entityIdMap.get(transaction.transfer_transaction_id) || null
@@ -204,20 +204,20 @@ async function importTransactions(data, entityIdMap) {
 
           // Handle transfer payee
           if (transaction.transfer_account_id) {
-            newTransaction.payee_id = payees.find(
+            newTransaction.payee = payees.find(
               p =>
                 p.transfer_acct === entityIdMap.get(transaction.transfer_account_id)
             ).id;
           } else {
-            newTransaction.payee_id = entityIdMap.get(transaction.payee_id);
+            newTransaction.payee = entityIdMap.get(transaction.payee_id);
           }
 
           // Handle starting balances
           if (transaction.payee_id === startingPayeeYNAB &&
               entityIdMap.get(transaction.category_id) === incomeCatId
             ) {
-            newTransaction.category_id = startingBalanceCatId;
-            newTransaction.payee_id = null;
+            newTransaction.category = startingBalanceCatId;
+            newTransaction.payee = null;
           }
           return newTransaction;
         })
