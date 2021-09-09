@@ -174,6 +174,7 @@ async function importTransactions(data, entityIdMap) {
   const startingPayeeYNAB = data.payees.find(payee => payee.name === 'Starting Balance').id;
 
   let transactionsGrouped = groupBy(data.transactions, 'account_id');
+  let subtransactionsGrouped = groupBy(data.subtransactions, 'transaction_id')
   
   // Go ahead and generate ids for all of the transactions so we can
   // reliably resolve transfers
@@ -190,6 +191,20 @@ async function importTransactions(data, entityIdMap) {
           if (transaction.deleted) {
             return;
           }
+
+          // Handle subtransactions
+          let subtransactions = subtransactionsGrouped[transaction.id];
+          if(subtransactions){
+            subtransactions = subtransactions.map(subtrans => {
+              return {
+                amount: amountFromYnab(subtrans.amount),
+                category: entityIdMap.get(subtrans.category_id) || null,
+                notes: subtrans.memo
+              }
+            })
+          }
+
+          // Add transaction
           let newTransaction = {
             id: entityIdMap.get(transaction.id),  
             account: entityIdMap.get(transaction.account_id),
@@ -198,8 +213,8 @@ async function importTransactions(data, entityIdMap) {
             category: entityIdMap.get(transaction.category_id) || null,
             notes: transaction.memo || null,
             //imported_id,
-            transfer_id: entityIdMap.get(transaction.transfer_transaction_id) || null
-            //subtransactions,
+            transfer_id: entityIdMap.get(transaction.transfer_transaction_id) || null,
+            subtransactions: subtransactions,
           };
 
           // Handle transfer payee
