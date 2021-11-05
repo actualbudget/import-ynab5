@@ -81,13 +81,14 @@ async function importCategories(data, entityIdMap) {
 
   const categories = await actual.getCategories();
   const incomeCatId = categories.find(cat => cat.name === 'Income').id;
-  
+  const ynabIncomeCategories = ["To be Budgeted", "Inflow: Ready to Assign"]
+
   function checkSpecialCat(cat) {
-    if (cat.category_group_id === 
+    if (cat.category_group_id ===
           data.category_groups.find(group =>
             group.name === "Internal Master Category").id) {
 
-      if (cat.name === "To be Budgeted") {
+      if (ynabIncomeCategories.includes(cat.name) ) {
         return "income";
       } else {
         return "internal";
