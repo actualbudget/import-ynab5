@@ -9,7 +9,7 @@ const { amountToInteger } = actual.utils;
 function amountFromYnab(amount) {
   // ynabs multiplies amount by 1000 and actual by 100
   // so, this function divides by 10
-  return amount/10;
+  return Math.ceil(amount/10);
 }
 
 function monthFromDate(date) {
