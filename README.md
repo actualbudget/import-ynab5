@@ -43,7 +43,7 @@ curl -H "Authorization: Bearer <ACCESS_TOKEN>" https://api.youneedabudget.com/v1
 ```
 ### Getting the right tools installed
 
-For the exporter to run, you will need `nodejs` installed.  Details on doing that are too long for this README, but you can find details at https://nodejs.org/.
+For the importer to run, you will need `nodejs` installed.  Details on doing that are too long for this README, but you can find details at https://nodejs.org/.
 
 Once you have `nodejs` installed, you'll need to get download this importer.  If you're familiar with GitHub and Git then you probably have everything setup to easily clone this repository.  If not, the easiest way to get this importer is to use the `Code` button and then use the `Download ZIP` file.
 
