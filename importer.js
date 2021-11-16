@@ -312,6 +312,10 @@ async function doImport(data) {
 }
 
 async function importYNAB5(filepath) {
+  if (!fs.existsSync(filepath)) {
+    throw new Error(`File not found at the provided path: ${filepath}`)
+  }
+
   let contents;
   try {
     contents = fs.readFileSync(filepath, 'utf8');
