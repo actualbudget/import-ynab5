@@ -1,7 +1,15 @@
 
 This is a **beta** importer for YNAB5 (nYNAB) data.
 
-Almost everything should be working now. Subtransactions and imported bank transactions id are still on the works.
+To run:
+
+```
+npx @actual-app/import-ynab5 <path-to-ynab5-file>
+```
+
+Read below for how to get your YNAB5 file.
+
+Almost everything should be working now. Subtransactions and imported bank transactions id are still in the works.
 
 ## TODO
  - There might be a way to set carryover using internal categories from YNAB (Deferred Income Subcategory and Immediate Income Subcategory)
@@ -61,8 +69,11 @@ This will install the required libraries for the importer.
 * Run the following command, substituting the `/path/to` with where ever you saved the `budget.json` file:
 
 ```bash
-node index.js /path/to/budget.json
+npx @actual-app/import-ynab5 /path/to/budget.json
 ```
+
+If you have checked out this code and running it locally, do `node index.js` instead of the `npx` command.
+
 ### Refresh the cache
 
 Once the import is complete, it may not show all the up-to-date information correctly.  In order to refresh the view:
