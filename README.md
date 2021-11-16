@@ -10,12 +10,11 @@ Almost everything should be working now. Subtransactions and imported bank trans
  - Remove ynab transfer payees not used by actual
  - Solve subtransactions and imported bank transactions id
 
-We also need to build a simple site that can be hosted on github that authorizes with YNAB and downloads it (there's already a [starter kit](https://github.com/ynab/ynab-api-starter-kit)).
-
-
 ## How to use the importer
 
 To use the importer, you will first need to export your budget, then have the correct software installed, and then run the importer.
+
+**Note: currently this does not work under WSL in Windows. Run this directly in Windows.**
 
 ### Exporting from YNAB
 
