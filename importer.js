@@ -166,7 +166,6 @@ function importPayees(data, entityIdMap) {
 
 async function importTransactions(data, entityIdMap) {
   // TODO: Handle subtransactions and imported transactions
-  // Also, is there any way to mark cleared?
 
   const payees = await actual.getPayees();
   const categories = await actual.getCategories();
@@ -212,6 +211,7 @@ async function importTransactions(data, entityIdMap) {
             date: transaction.date,
             amount: amountFromYnab(transaction.amount),  
             category: entityIdMap.get(transaction.category_id) || null,
+            cleared: ["cleared", "reconciled"].includes(transaction.cleared),
             notes: transaction.memo || null,
             //imported_id,
             transfer_id: entityIdMap.get(transaction.transfer_transaction_id) || null,
