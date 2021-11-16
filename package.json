@@ -1,7 +1,7 @@
 {
-  "name": "@actual-app/import-nynab",
+  "name": "@actual-app/import-ynab5",
   "description": "A tool for importing nYNAB data into Actual",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "index.js",
   "repository": {
     "type": "git",
