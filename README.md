@@ -9,14 +9,14 @@ npx @actual-app/import-ynab5 <path-to-ynab5-file>
 
 Read below for how to get your YNAB5 file.
 
-Almost everything should be working now. Subtransactions and imported bank transactions id are still in the works.
+Almost everything should be working now. Imported bank transaction ids are still in the works.
 
 ## TODO
  - There might be a way to set carryover using internal categories from YNAB (Deferred Income Subcategory and Immediate Income Subcategory)
  - Docs of how credit cards translate from Actual to YNAB
  - Maybe something else I'm missing
  - Remove ynab transfer payees not used by actual
- - Solve subtransactions and imported bank transactions id
+ - Import bank transaction ids
 
 ## How to use the importer
 
