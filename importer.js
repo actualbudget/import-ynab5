@@ -213,7 +213,7 @@ async function importTransactions(data, entityIdMap) {
             category: entityIdMap.get(transaction.category_id) || null,
             cleared: ["cleared", "reconciled"].includes(transaction.cleared),
             notes: transaction.memo || null,
-            //imported_id,
+            imported_id: transaction.import_id || null,
             transfer_id: entityIdMap.get(transaction.transfer_transaction_id) || null,
             subtransactions: subtransactions,
           };
