@@ -330,8 +330,12 @@ async function importYNAB5(filepath) {
     throw new Error('Error parsing file');
   }
 
-  return actual.runImport(data.data.budget.name, () =>
-    doImport(data.data.budget)
+  if(data.data) {
+    data = data.data;
+  }
+
+  return actual.runImport(data.budget.name, () =>
+    doImport(data.budget)
   );
 }
 
