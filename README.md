@@ -1,3 +1,8 @@
+**This repository is archived.**
+
+New location for the package: https://github.com/actualbudget/actual/tree/master/packages/import-ynab5
+
+---
 
 This is a **beta** importer for YNAB5 (nYNAB) data.
 
